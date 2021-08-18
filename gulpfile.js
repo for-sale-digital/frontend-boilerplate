@@ -9,7 +9,7 @@ const source = require('vinyl-source-stream');
 const sourcemaps = require('gulp-sourcemaps');
 const { argv } = require('yargs');
 
-const sass = require('gulp-sass');
+const sass = require('gulp-sass')(require('sass'));
 const stylelint = require('gulp-stylelint');
 const postcss = require('gulp-postcss');
 const postcssPresetEnv = require('postcss-preset-env');
