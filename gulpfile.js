@@ -31,7 +31,7 @@ const prodMode = !!argv.production;
 const sassFiles = `${config.build.sources.sass}**/*.s+(a|c)ss`;
 const jsFiles = `${config.build.sources.js}**/*.js`;
 
-const handleError = (error) => {
+const handleError = error => {
     // eslint-disable-next-line no-console
     console.log(error.toString());
     if (haltOnError) {
@@ -39,46 +39,46 @@ const handleError = (error) => {
     }
 };
 
-const lintSass = (done) => {
+const lintSass = done => {
     if (!prodMode) {
         gulp.src(sassFiles)
             .pipe(
                 stylelint({
-                    reporters: [{ formatter: 'verbose', console: true }],
-                }),
+                    reporters: [{ formatter: 'verbose', console: true }]
+                })
             )
             .on('error', handleError);
     }
     done();
 };
 
-const compileSass = (done) => {
+const compileSass = done => {
     gulp.src(`${config.build.sources.sass}*.s+(a|c)ss`)
         .pipe(sourcemaps.init())
         .pipe(sass.sync({ outputStyle: 'compressed' }).on('error', sass.logError))
         .pipe(postcss([postcssPresetEnv()]))
         .pipe(
             rename({
-                suffix: '.min',
-            }),
+                suffix: '.min'
+            })
         )
         .pipe(
             header(config.build.banner, {
                 pkg,
-                timestamp: date2string(new Date(), 'Y-m-d H:i:s'),
-            }),
+                timestamp: date2string(new Date(), 'Y-m-d H:i:s')
+            })
         )
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(config.build.targets.css));
     done();
 };
 
-const watchCompileSass = (done) => {
+const watchCompileSass = done => {
     gulp.watch(sassFiles, gulp.parallel(['compile-sass']));
     done();
 };
 
-const lintJs = (done) => {
+const lintJs = done => {
     if (!prodMode) {
         gulp.src([jsFiles, './gulpfile.js'])
             .pipe(cache('lint-js'))
@@ -90,7 +90,7 @@ const lintJs = (done) => {
     done();
 };
 
-const compileJs = (done) => {
+const compileJs = done => {
     const b = browserify({
         entries: glob.sync(jsFiles),
         debug: true,
@@ -101,12 +101,12 @@ const compileJs = (done) => {
                         '@babel/preset-env',
                         {
                             useBuiltIns: 'usage',
-                            corejs: 3,
-                        },
-                    ],
-                ],
-            }),
-        ],
+                            corejs: 3
+                        }
+                    ]
+                ]
+            })
+        ]
     });
 
     b.bundle()
@@ -117,39 +117,39 @@ const compileJs = (done) => {
         .pipe(uglify())
         .pipe(
             rename({
-                suffix: '.min',
-            }),
+                suffix: '.min'
+            })
         )
         .pipe(
             header(config.build.banner, {
                 pkg,
-                timestamp: date2string(new Date(), 'Y-m-d H:i:s'),
-            }),
+                timestamp: date2string(new Date(), 'Y-m-d H:i:s')
+            })
         )
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest(config.build.targets.js));
     done();
 };
 
-const watchCompileJs = (done) => {
+const watchCompileJs = done => {
     gulp.watch(jsFiles, gulp.parallel(['compile-js']));
     done();
 };
 
-const watch = (done) => {
+const watch = done => {
     haltOnError = false;
     gulp.watch([jsFiles, sassFiles], gulp.parallel(['default']));
     done();
 };
 
-const copyLibsCss = (done) => {
+const copyLibsCss = done => {
     if (config.static.sources.css && config.static.sources.css.length) {
         gulp.src(config.static.sources.css, { allowEmpty: true }).pipe(gulp.dest(config.static.targets.css));
     }
     done();
 };
 
-const copyLibsJs = (done) => {
+const copyLibsJs = done => {
     if (config.static.sources.js && config.static.sources.js.length) {
         gulp.src(config.static.sources.js, { allowEmpty: true }).pipe(gulp.dest(config.static.targets.js));
     }

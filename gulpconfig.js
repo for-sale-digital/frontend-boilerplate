@@ -4,22 +4,22 @@ module.exports = {
         basename: 'myproject',
         sources: {
             sass: './src/scss/',
-            js: './src/js/',
+            js: './src/js/'
         },
         targets: {
             css: './public/css/',
-            js: './public/js/',
-        },
+            js: './public/js/'
+        }
     },
 
     static: {
         sources: {
             css: [],
-            js: [],
+            js: []
         },
         targets: {
             css: './public/css/libs/',
-            js: './public/js/libs/',
-        },
-    },
+            js: './public/js/libs/'
+        }
+    }
 };

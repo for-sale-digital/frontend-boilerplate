@@ -6,7 +6,8 @@
     "license": "UNLICENSED",
     "private": true,
     "scripts": {
-        "release": "git fetch --tags -f && standard-version"
+        "release": "git fetch --tags -f && standard-version",
+        "format": "prettier --write \"{,!(node_modules)/**/}*.{js,jsx,json}\""
     },
     "dependencies": {
         "whatwg-fetch": "^3.6.2"

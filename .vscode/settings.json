@@ -12,5 +12,5 @@
     },
     "[scss]": {
         "editor.formatOnSave": true
-    },
+    }
 }
